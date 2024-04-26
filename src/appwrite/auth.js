@@ -10,7 +10,7 @@ export class AuthService {
       .setEndpoint(conf.appwriteUrl)
       .setProject(conf.appwriteProjectId);
     this.account = new Account(this.client);
-    console.log('connection is established')
+    console.log("connection is established");
   }
 
   async createAccount({ email, password, name }) {
@@ -32,7 +32,7 @@ export class AuthService {
     try {
       return await this.account.createEmailSession(email, password);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -45,6 +45,8 @@ export class AuthService {
 
     return null;
   }
+
+  
 
   async logout() {
     try {

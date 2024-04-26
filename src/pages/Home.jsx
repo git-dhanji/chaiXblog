@@ -18,14 +18,23 @@ function Home() {
     }, [])
 
 
-    if (!user  || posts.length === 0) {
+    if (!user  && posts.length === 0) {
         return (
-            <Landing/>
+            <Landing
+            input='Go to login'
+            link='/login'
+            />
         );
     }
     return (
         <div className='w-full py-8'>
             <Container>
+                {
+                    posts.length <= 4  && user ? <Landing
+                    link='/all-posts'
+                    input='read-blog'
+                    /> :''
+                }
                 <div className='flex justify-center flex-wrap pt-16 pb-4 gap-8 relative w-full  overflow-hidden '>
                     {posts.map((post) => (
                         <div key={post.$id} className='max-w-lg min-w-sm  flex justify-center'>

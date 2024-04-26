@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Logo({width = '100px',text='logo'}) {
+function Logo({width = '100px',text='logo',fontSize=''}) {
   return (
-    <div>{text}</div>
+    <div className={`font-[${fontSize}]`}>{text}</div>
   )
 }
 

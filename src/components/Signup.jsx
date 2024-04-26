@@ -29,19 +29,19 @@ function Signup() {
     return (
         <div className="flex items-center justify-center mx-4 h-screen" >
             <div className={`mx-auto w-full max-w-lg dark:bg-slate-900 dark:text-stone-100 text-stone-800 border-[2px] border-stone-600 bg-stone-100  rounded-xl p-10 `}>
-                <div className="mb-2 flex justify-center">
-                    <span className="inline-block w-full max-w-[100px]">
-                        <Logo width="100%" />
-                    </span>
+                <div className=" flex justify-center">
+                    <h1 className="text-3xl font-bold mb-4 text-center"><Logo
+                        text='chaiXblog'
+                    /></h1>
                 </div>
-                <h2 className="text-center text-2xl font-bold leading-tight">Sign up to create account</h2>
+                <h2 className="text-center pb-4 text-2xl font-bold leading-tight dark:text-stone-100 text-stone-900">Sign up to create account</h2>
 
                 {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
 
                 <form onSubmit={handleSubmit(create)}>
                     <div className='space-y-5'>
                         <Input
-                            disable={isSubmitting ? "true":'false'}
+                            disable={isSubmitting ? "true" : 'false'}
                             className='border-[2px] border-stone-600'
                             label="Full Name: "
                             placeholder="Enter your full name"
@@ -50,7 +50,7 @@ function Signup() {
                             })}
                         />
                         <Input
-                            disable={isSubmitting ? "true":'false'}
+                            disable={isSubmitting ? "true" : 'false'}
                             className='border-[2px] border-stone-600'
                             label="Email: "
                             placeholder="Enter your email"
@@ -64,7 +64,7 @@ function Signup() {
                             })}
                         />
                         <Input
-                            disable={isSubmitting ? "true":'false'}
+                            disable={isSubmitting ? "true" : 'false'}
                             className='border-[2px] border-stone-600'
                             label="Password: "
                             type="password"
@@ -79,12 +79,12 @@ function Signup() {
                         >{isSubmitting ? <Spinner /> : 'Register'}</Button>
 
                         <p className="mt-8 text-center text-base text-black/60 dark:text-cyan-100">
-                            Don&apos;t have any account?&nbsp;
+                             allready have a account?&nbsp;
                             <Link
-                                to="/signup"
+                                to="/login"
                                 className="font-medium text-primary transition-all duration-200 hover:underline dark:text-blue-400"
                             >
-                                Sign Up
+                                login
                             </Link>
                         </p>
                     </div>
