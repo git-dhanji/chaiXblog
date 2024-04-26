@@ -11,7 +11,6 @@ function Login() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { register, handleSubmit, formState: {  isSubmitting}} = useForm();
-    console.log(isSubmitting)
     const [error, setError] = useState("")
 
     const login = async (data) => {
