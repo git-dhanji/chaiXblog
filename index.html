@@ -1,13 +1,44 @@
 <!doctype html>
-<html lang="en" >
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/public/B.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>chaiXblog : created by ❤️</title>
-  </head>
-  <body class="bg-slate-400">
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/B.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Welcome to chaixblog – your ultimate source for cutting-edge tech news, thought-provoking articles, and comprehensive product reviews. Dive into our curated content, crafted to empower and inspire tech enthusiasts like you. Stay ahead of the curve with our expert insights and stay connected to the pulse of innovation. Explore chaixblog today and unlock the limitless possibilities of the digital world.">
+  <title>chaiXblog : created with ❤️</title>
+  <!-- Structured Data - JSON-LD -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "chaixblog",
+      "url": "https://chaixblog.vercel.app/",
+      "logo": "https://chaixblog.vercel.app/logo.png",
+      "description": "Welcome to chaixblog – your ultimate source for cutting-edge tech news, thought-provoking articles, and comprehensive product reviews. Dive into our curated content, crafted to empower and inspire tech enthusiasts like you. Stay ahead of the curve with our expert insights and stay connected to the pulse of innovation. Explore chaixblog today and unlock the limitless possibilities of the digital world.",
+      "sameAs": [
+        "https://www.facebook.com/chaixblog",
+        "https://twitter.com/chaixblog",
+        "https://www.linkedin.com/company/chaixblog",
+        "https://www.instagram.com/chaixblog"
+      ]
+    }
+    </script>
+</head>
+
+<body class="bg-slate-400">
+  <div id="root"></div>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZLSS454YN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-TZLSS454YN');
+  </script>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>
