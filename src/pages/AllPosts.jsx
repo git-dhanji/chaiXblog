@@ -28,9 +28,9 @@ function AllPosts() {
     return (
         <div className='min-h-screen max-w-7xl mx-auto '>
             <Container>
-                <div className={`py-8 flex-wrap gap-8 relative w-full flex justify-center items-start  overflow-hidden `}>
+                <div className={`py-8 flex-wrap gap-8 relative w-full flex justify-center items-start  overflow-hidden`}>
                     {posts.map((post) => (
-                        <div key={post.$id} className='max-w-lg min-w-sm  flex justify-center'>
+                        <div key={post.$id} className='flex justify-center'>
                             <PostCard {...post} />
                         </div>
                     ))}
