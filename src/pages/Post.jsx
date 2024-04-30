@@ -31,6 +31,8 @@ export default function Post() {
         });
     };
 
+
+
     return post ? (
         <div className="py-8 w-full md:w-4/5 relative mx-auto px-1 ">
             <Container>

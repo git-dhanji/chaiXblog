@@ -35,7 +35,7 @@ function Home() {
                     input='read-blog'
                     /> :''
                 }
-                <div className='flex justify-center flex-wrap pt-16 pb-4 gap-8 relative w-full  overflow-hidden '>
+                <div className='flex justify-center flex-wrap  py-4 gap-8 relative w-full  overflow-hidden '>
                     {posts.map((post) => (
                         <div key={post.$id} className='max-w-lg min-w-sm  flex justify-center'>
                             <PostCard {...post} />
