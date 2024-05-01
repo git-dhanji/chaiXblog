@@ -1,49 +1,56 @@
 import { useEffect, useState } from 'react'
 import appwriteService from "../appwrite/config";
-import { Container, Landing, PostCard } from '../components'
+import { Landing } from '../components'
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 function Home() {
-
+    const [loding, setLoading] = useState(false)
 
     const user = useSelector(state => state.auth.status)
     const [posts, setPosts] = useState([])
     useEffect(() => {
+        setLoading(true)
         appwriteService.getPosts().then((posts) => {
             if (posts) {
                 setPosts(posts.documents)
+                setLoading(false)
             }
         })
     }, [])
 
 
-    if (!user  && posts.length === 0) {
+    if (!user) {
         return (
             <Landing
-            input='Go to login'
-            link='/login'
+                input='create account'
+                link='/signup'
             />
         );
     }
+
+
+    if (loding) {
+        return (
+            <Landing
+                input='loading...'
+                link='#'
+            />
+        )
+    }
+
     return (
-        <div className='w-full py-8'>
-            <Container>
-                {
-                    posts.length <= 4  && user ? <Landing
-                    link='/all-posts'
-                    input='read-blog'
-                    /> :''
-                }
-                <div className='flex justify-center flex-wrap  py-4 gap-8 relative w-full  overflow-hidden '>
-                    {posts.map((post) => (
-                        <div key={post.$id} className='max-w-lg min-w-sm  flex justify-center'>
-                            <PostCard {...post} />
-                        </div>
-                    ))}
-                </div>
-            </Container>
-        </div>
+        user === true ? (
+            !loding && (
+                <Landing
+                    input={posts.length === 0 ? "add-posts" : "read-post"}
+                    link={posts.length === 0 ? "/add-post" : "/all-posts"}
+                />)
+        ) : (
+            <Landing
+                input='create account'
+                link='/signup'
+            />
+        )
     )
 }
 
