@@ -28,7 +28,7 @@ function AllPosts() {
                 <Container>
                     <div className={`flex-wrap gap-8 relative w-full flex justify-center items-start  overflow-hidden py-12`}>
                         {posts.map((post) => (
-                            <div key={post.$id} className='flex justify-center'>
+                            <div key={post.$id} className='flex justify-center relative rounded-lg overflow-hidden'>
                                 {
                                     post.length === 0 ? <Landing
                                         input='No posts found'

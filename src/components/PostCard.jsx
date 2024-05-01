@@ -6,7 +6,7 @@ function PostCard({ featuredImage, $id, title, Author }) {
   return (
     <Link to={`/post/${$id}`}>
 
-      <div className='md:max-w-[350px] md:min-w-[350px] md:min-h-[260px] max-h-[300] dark:border-stone-300 border-stone-900 relative flex justify-between flex-col rounded-sm'>
+      <div className='md:max-w-[350px] md:min-w-[350px] md:min-h-[260px] max-h-[300px] dark:border-stone-300 border-stone-900 relative flex justify-between flex-col'>
         <div className="bg-emerald-600 dark:bg-cyan-950 text-zinc-100  dark:text-gray-50 absolute z-10 rounded-br-xl p-1">{Author ? Author : 'No author'}</div>
         <div className='w-full  md:h-[200px] relative '>
           <img src={appwriteService.getFilePreview(featuredImage)} alt={title}
