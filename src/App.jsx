@@ -21,14 +21,16 @@ function App() {
         }
       })
       .finally(() => setLoading(false))
+
+
+
+    return () => {}
   }, [dispatch])
 
   if (navigation.state === "loading") {
     return <GlobalSpinner />;
   }
 
-
-  console.log(navigation.state)
 
   return !loading ? (
     <div className='min-h-screen flex flex-wrap content-between bg-[#DDE6ED] dark:bg-[#27374D]'>
