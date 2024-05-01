@@ -1,36 +1,53 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/config";
-import { Button, Container } from "../components";
+import { Button, Container, Spinner } from "../components";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
+import GlobalSpinner from "../components/GlobalSpinner";
 
 export default function Post() {
     const [post, setPost] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const [delLoading, setDelLoading] = useState(false)
+
     const { slug } = useParams();
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
     const isAuthor = post && userData ? userData.status : false;
-   
+
 
     useEffect(() => {
         if (slug) {
+            setLoading(true)
             appwriteService.getPost(slug).then((post) => {
-                if (post) setPost(post);
+                if (post) {
+                    setPost(post);
+                    setLoading(false)
+                }
                 else navigate("/");
             });
         } else navigate("/");
     }, [slug, navigate]);
 
     const deletePost = () => {
+        setDelLoading(true)
         appwriteService.deletePost(post.$id).then((status) => {
             if (status) {
                 appwriteService.deleteFile(post.featuredImage);
+                setDelLoading(false)
                 navigate("/");
             }
         });
     };
 
+
+    if (loading) {
+        return (
+            <GlobalSpinner />
+        )
+    }
 
 
     return post ? (
@@ -50,12 +67,12 @@ export default function Post() {
                     {isAuthor && (
                         <div className="absolute right-6 top-6">
                             <Link to={`/edit-post/${post.$id}`}>
-                                <Button bgColor="bg-green-500" className="mr-3">
+                                <Button bgColor="bg-green-400" className="mr-3">
                                     Edit
                                 </Button>
                             </Link>
-                            <Button bgColor="bg-red-500" onClick={deletePost}>
-                                Delete
+                            <Button bgColor="bg-teal-500 border-red-400 border hover:bg-red-500 duration-200" onClick={deletePost}>
+                                {delLoading === true ? <Spinner /> : "Delete"}
                             </Button>
                         </div>
                     )}
