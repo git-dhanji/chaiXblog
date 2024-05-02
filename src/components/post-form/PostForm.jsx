@@ -74,7 +74,7 @@ export default function PostForm({ post }) {
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-            <div className="lg:w-2/3 px-2">
+            <div className="lg:w-2/3 w-full px-2 ">
                 <Input
                     type='text'
                     label="Title :"
@@ -94,11 +94,11 @@ export default function PostForm({ post }) {
                 />
                 <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
             </div>
-            <div className="lg:w-1/3 sm:w-full mx-auto">
+            <div className="lg:w-1/3 w-full mx-auto">
                 <Input
                     label="Featured Image :"
                     type="file"
-                    className="mb-4"
+                    className="mb-4 w-full"
                     accept="image/png, image/jpg, image/jpeg, image/gif"
                     {...register("image", { required: !post })}
                 />
@@ -114,7 +114,7 @@ export default function PostForm({ post }) {
                 <Select
                     options={["active", "inactive"]}
                     label="Status"
-                    className="mb-4"
+                    className="mb-4 w-full"
                     {...register("status", { required: true })}
                 />
 
