@@ -22,7 +22,7 @@ function App() {
       })
       .finally(() => setLoading(false))
 
-    return () => {}
+    return () => { }
   }, [dispatch])
 
   if (navigation.state === "loading") {
@@ -31,13 +31,14 @@ function App() {
 
 
   return !loading ? (
-    <div className='min-h-screen flex flex-wrap content-between bg-[#DDE6ED] dark:bg-[#27374D]'>
-      <div className='w-full block'>
-        <Header />
-        <main >
+    <div className='min-h-full bg-[#a0a0a0] dark:bg-[#27374D]'>
+      <div className='w-full h-full'>
+        <header><Header /></header>
+        <main className='h-full pb-64'>
           <Outlet />
         </main>
-        <Footer />
+        <footer><Footer /></footer>
+
       </div>
     </div>
   ) : null
