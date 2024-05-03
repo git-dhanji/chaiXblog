@@ -51,7 +51,7 @@ export default function Post() {
 
 
     return post ? (
-        <div className="py-8 w-full md:w-4/5 relative mx-auto px-1 ">
+        <div className="py-8 w-full md:w-4/5 relative mx-auto px-1 h-screen ">
             <Container>
                 <div className="flex justify-center flex-col mb-4 relative  rounded-xl  mx-auto">
                     <div className="min-w-md max-w-full h-full min-h-min overflow-hidden mx-auto object-cover relative">
