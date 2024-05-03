@@ -1,4 +1,3 @@
-import React from 'react';
 import LogoImage from '../assets/green-tea.png';
 
 function Logo({

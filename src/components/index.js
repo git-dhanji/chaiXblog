@@ -15,7 +15,9 @@ import Input from "./Input";
 import Spinner from "./Spinner";
 import Landing from "./landing/Landing";
 import useDynamicTitle from "../hooks/useDynamicTitle";
+import GlobalSpinner from "./GlobalSpinner";
 export {
+    GlobalSpinner,
     useDynamicTitle,
     Header,
     Footer,
