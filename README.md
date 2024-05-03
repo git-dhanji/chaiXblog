@@ -2,6 +2,20 @@
 
 Welcome to ChaixBlog, a stylish and efficient blog website built with React.js and powered by Appwrite for the backend. This project utilizes Vite for creating a fast and optimized web application and Tailwind CSS for sleek styling.
 
+
+# Appwrite 
+
+## create account on appwrite 
+[appwrite tutorial with react by hitesh sir](https://youtu.be/jkngyZjRETs?si=S6qWbRwjLfKny7SM)
+```plaintext
+    VITE_APPWRITE_URL="test environment" 
+    VITE_APPWRITE_PROJECT_ID=""
+    VITE_APPWRITE_DATABASE_ID=""
+    VITE_APPWRITE_COLLECTION_ID=""
+    VITE_APPWRITE_BUCKET_ID=""
+    VITE_TINYMCE_ID =''
+```
+
 ## Features
 
 - **React.js**: Built using the popular JavaScript library for building user interfaces.
