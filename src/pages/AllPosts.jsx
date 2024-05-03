@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import {  useEffect } from 'react'
 import { Container, Landing, PostCard } from '../components'
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncActions } from '../store/documentList';
@@ -13,8 +13,6 @@ function AllPosts() {
             dispatch(asyncActions.fetchDocuments());
         }
     }, [dispatch, fetched, buffering]);
-
-
 
     return (
         !buffering ? (

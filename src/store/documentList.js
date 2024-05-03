@@ -14,6 +14,7 @@ export const fetchDocuments = createAsyncThunk(
   }
 );
 
+
 const initialState = {
   data: [],
   buffering: false,
