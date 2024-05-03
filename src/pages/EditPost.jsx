@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react'
-import {Container, PostForm} from '../components'
+import { useEffect, useState } from 'react'
+import { Container, PostForm, useDynamicTitle } from '../components'
 import appwriteService from "../appwrite/config";
-import { useNavigate,  useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function EditPost() {
+    useDynamicTitle()
     const [post, setPosts] = useState(null)
-    const {slug} = useParams()
+    const { slug } = useParams()
     const navigate = useNavigate()
-
     useEffect(() => {
         if (slug) {
             appwriteService.getPost(slug).then((post) => {
@@ -19,13 +19,13 @@ function EditPost() {
             navigate('/')
         }
     }, [slug, navigate])
-  return post ? (
-    <div className='py-8'>
-        <Container>
-            <PostForm post={post} />
-        </Container>
-    </div>
-  ) : null
+    return post ? (
+        <div className='py-8'>
+            <Container>
+                <PostForm post={post} />
+            </Container>
+        </div>
+    ) : null
 }
 
 export default EditPost

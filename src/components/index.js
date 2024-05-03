@@ -14,7 +14,9 @@ import AuthLayout from "./AuthLayout";
 import Input from "./Input";
 import Spinner from "./Spinner";
 import Landing from "./landing/Landing";
+import useDynamicTitle from "../hooks/useDynamicTitle";
 export {
+    useDynamicTitle,
     Header,
     Footer,
     Container,

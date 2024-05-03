@@ -44,12 +44,6 @@ const documentSlice = createSlice({
   },
 });
 
-// Export the async action creator and reducer
-export const {
-  fetchDocumentsPending,
-  fetchDocumentsFulfilled,
-  fetchDocumentsRejected,
-} = documentSlice.actions;
 
 // Handle async action creators
 export const asyncActions = {

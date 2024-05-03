@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import authService from "./appwrite/auth"
 import { login, logout } from "./store/authSlice"
-import { Footer, Header } from './components'
+import { Footer, Header, useDynamicTitle } from './components'
 import { Outlet, useNavigation } from 'react-router-dom'
 import GlobalSpinner from './components/GlobalSpinner'
 
 function App() {
+  useDynamicTitle();
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
   const navigation = useNavigation();

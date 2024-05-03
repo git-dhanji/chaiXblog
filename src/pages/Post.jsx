@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/config";
-import { Button, Container, Spinner } from "../components";
+import { Button, Container, Spinner, useDynamicTitle } from "../components";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
 import GlobalSpinner from "../components/GlobalSpinner";
 
 export default function Post() {
+    useDynamicTitle();
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(false);
 

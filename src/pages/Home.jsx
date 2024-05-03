@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import appwriteService from "../appwrite/config";
-import { Landing } from '../components'
+import { Landing, useDynamicTitle } from '../components'
 import { useSelector } from 'react-redux';
 
 function Home() {
+    useDynamicTitle()
     const [loding, setLoading] = useState(false)
-
     const user = useSelector(state => state.auth.status)
     const [posts, setPosts] = useState([])
+
     useEffect(() => {
         setLoading(true)
         appwriteService.getPosts().then((posts) => {

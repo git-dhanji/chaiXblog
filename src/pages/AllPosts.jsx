@@ -1,5 +1,5 @@
 import {  useEffect } from 'react'
-import { Container, Landing, PostCard } from '../components'
+import { Container, Landing, PostCard, useDynamicTitle } from '../components'
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncActions } from '../store/documentList';
 import BlogLoading from '../components/BlogLoading';
@@ -7,6 +7,7 @@ import BlogLoading from '../components/BlogLoading';
 function AllPosts() {
     const { data, fetched, buffering } = useSelector(state => state.document);
     const dispatch = useDispatch();
+    useDynamicTitle();
 
     useEffect(() => {
         if (!fetched) {
