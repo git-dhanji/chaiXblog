@@ -79,6 +79,8 @@ export class Service {
     }
   }
 
+
+  // fetch all posts from database , default query is active  
   async getPosts(queries = [Query.equal("status", "active")]) {
     try {
       return await this.databases.listDocuments(
