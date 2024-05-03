@@ -6,11 +6,11 @@
     },
     {
       "src": "/login",
-      "dest": "/login"
+      "dest": "/"
     },
     {
       "src": "/signup",
-      "dest": "/signup"
+      "dest": "/"
     },
     {
       "src": "/all-posts",
@@ -26,7 +26,7 @@
     },
     {
       "src": "/post/:slug",
-      "dest": "/post/:slug"
+      "dest": "/"
     }
   ]
 }
