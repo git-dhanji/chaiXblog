@@ -1,4 +1,4 @@
-import {  useEffect } from 'react'
+import { useEffect } from 'react'
 import { Container, Landing, PostCard, useDynamicTitle } from '../components'
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncActions } from '../store/documentList';

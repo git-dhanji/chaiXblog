@@ -14,7 +14,6 @@ export const fetchDocuments = createAsyncThunk(
   }
 );
 
-
 const initialState = {
   data: [],
   buffering: false,
@@ -43,7 +42,6 @@ const documentSlice = createSlice({
       });
   },
 });
-
 
 // Handle async action creators
 export const asyncActions = {

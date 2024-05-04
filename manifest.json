@@ -2,15 +2,17 @@
   "name": "ChaixBlog",
   "short_name": "ChaixBlog",
   "description": "A tech blog website sharing the latest in technology news, reviews, and tutorials.",
-  "start_url": "/",
-  "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
   "icons": [
     {
       "src": "/B.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     }
-  ]
+  ],
+  "start_url": "/index.html",
+  "display": "standalone"
 }
+
