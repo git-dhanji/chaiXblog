@@ -7,7 +7,7 @@ import store from './store/store.js'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import { AuthLayout, Login } from './components/index.js'
-import { AddPost, Signup, EditPost, Post, AllPosts } from './pages'
+import { AddPost, Signup, EditPost, Post, AllPosts, WebPolicy } from './pages'
 
 
 
@@ -55,6 +55,16 @@ const router = createBrowserRouter([
                     </AuthLayout>
                 ),
             },
+            {
+                path: "/privacy-policy",
+                element: (
+                    <AuthLayout authentication>
+                        {" "}
+                        <WebPolicy />
+                    </AuthLayout>
+                ),
+            },
+
             {
                 path: "/edit-post/:slug",
                 element: (
