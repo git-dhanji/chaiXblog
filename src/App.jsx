@@ -34,7 +34,7 @@ function App() {
     <div className='min-h-full bg-[#a0a0a0] dark:bg-[#27374D]'>
       <div className='w-full h-full'>
         <header><Header /></header>
-        <main className='h-full pb-64'>
+        <main className='h-full'>
           <Outlet />
         </main>
         <footer><Footer /></footer>

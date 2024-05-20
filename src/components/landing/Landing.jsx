@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   SunIcon,
@@ -35,9 +35,9 @@ const Landing = () => {
       </div>
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-teal-500 to-slate-700 text-white py-32 px-5">
+      <div className="bg-gradient-to-r from-teal-500 to-slate-700 text-white py-20 px-5">
         <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4  text-zinc-800">
             Welcome to Our Blog
           </h1>
           <p className="text-lg md:text-2xl mb-8">
@@ -79,28 +79,36 @@ const Landing = () => {
             </div>
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md text-center">
               <HandThumbUpIcon className="w-16 h-16 text-blue-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-blue-500">User Friendly</h3>
+              <h3 className="text-xl font-semibold mb-2 text-blue-500">
+                User Friendly
+              </h3>
               <p className="dark:text-slate-100 ">
                 Our intuitive design makes it easy to get started.
               </p>
             </div>
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md text-center">
               <GlobeAltIcon className="w-16 h-16 text-red-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-red-500">Global Reach</h3>
+              <h3 className="text-xl font-semibold mb-2 text-red-500">
+                Global Reach
+              </h3>
               <p className="dark:text-slate-100 ">
                 Connect with people all over the world.
               </p>
             </div>
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md text-center">
               <ChartBarSquareIcon className="w-16 h-16 text-purple-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-purple-500">Analytics</h3>
+              <h3 className="text-xl font-semibold mb-2 text-purple-500">
+                Analytics
+              </h3>
               <p className="dark:text-slate-100 ">
                 Get insights to help grow your audience.
               </p>
             </div>
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md text-center">
               <CodeBracketIcon className="w-16 h-16 text-indigo-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-indigo-500">Customizable</h3>
+              <h3 className="text-xl font-semibold mb-2 text-indigo-500">
+                Customizable
+              </h3>
               <p className="dark:text-slate-100 ">
                 Fully customizable to fit your needs.
               </p>
