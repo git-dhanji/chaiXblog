@@ -50,7 +50,9 @@ function App() {
 
 
       {/* TODO: Fix Footer Section  */}
-        
+        <footer>
+          <Footer />
+        </footer>
       </div>
     </div>
   ) : null;
