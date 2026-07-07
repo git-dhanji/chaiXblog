@@ -1,42 +1,29 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import appwriteService from "../appwrite/config";
 import { Landing, useDynamicTitle } from "../components";
-import { useSelector } from "react-redux";
+import { SAMPLE_POSTS } from "../data/samplePosts";
 
 function Home() {
   useDynamicTitle();
-  const [loding, setLoading] = useState(false);
-  const user = useSelector((state) => state.auth.status);
+  const authStatus = useSelector((state) => state.auth.status);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
-    appwriteService.getPosts().then((posts) => {
-      if (posts) {
-        setPosts(posts.documents);
-        setLoading(false);
-      }
+    let active = true;
+    appwriteService.getPosts().then((res) => {
+      if (!active) return;
+      const docs =
+        res && Array.isArray(res.documents) ? res.documents : [];
+      // Show built-in demo articles when the backend has none yet
+      setPosts(docs.length ? docs : SAMPLE_POSTS);
     });
+    return () => {
+      active = false;
+    };
   }, []);
 
-  if (!user) {
-    return <Landing input="create account" link="/signup" />;
-  }
-
-  if (loding) {
-    return <Landing input="loading..." link="#" />;
-  }
-
-  return user === true ? (
-    !loding && (
-      <Landing
-        input={posts.length === 0 ? "add-posts" : "read-post"}
-        link={posts.length === 0 ? "/add-post" : "/all-posts"}
-      />
-    )
-  ) : (
-    <Landing input="create account" link="/signup" />
-  );
+  return <Landing posts={posts} authStatus={authStatus} />;
 }
-
+  
 export default Home;

@@ -1,3 +1,223 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ==========================================================================
+   Design tokens — one restrained palette: paper + ink + a single green accent.
+   Light  = clean paper, near-black ink, deep emerald accent.
+   Dark   = near-black surface, soft white ink, vivid green accent.
+   Values are "R G B" so Tailwind can apply opacity.
+   ========================================================================== */
+@layer base {
+  :root {
+    /* Light = clean white + near-black ink, deep emerald accent */
+    --bg: 249 250 249;
+    --surface: 255 255 255;
+    --surface-2: 240 243 241;
+    --fg: 17 24 21;
+    --fg-muted: 82 92 87;
+    --fg-subtle: 130 140 135;
+    --border: 224 230 227;
+    --ring: 4 120 87;
+
+    --accent: 4 120 87; /* emerald-700, readable on white */
+    --accent-hover: 6 95 70;
+    --accent-soft: 209 250 229;
+    --accent-fg: 255 255 255;
+  }
+
+  .dark {
+    /* Dark = Supabase-style near-black + white, vivid green accent */
+    --bg: 11 13 12;
+    --surface: 19 21 20;
+    --surface-2: 27 30 28;
+    --fg: 237 242 239;
+    --fg-muted: 156 166 161;
+    --fg-subtle: 108 118 113;
+    --border: 40 44 42;
+    --ring: 62 207 142;
+
+    --accent: 62 207 142; /* #3ECF8E — Supabase green */
+    --accent-hover: 85 219 160;
+    --accent-soft: 18 42 32;
+    --accent-fg: 6 18 13;
+  }
+
+  * {
+    border-color: rgb(var(--border));
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bg text-fg font-sans antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+
+  ::selection {
+    background: rgb(var(--accent) / 0.25);
+    color: rgb(var(--fg));
+  }
+
+  /* Focus visibility for accessibility */
+  :focus-visible {
+    outline: 2px solid rgb(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgb(var(--bg));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--fg-subtle) / 0.4);
+    border-radius: 999px;
+    border: 3px solid rgb(var(--bg));
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--fg-subtle) / 0.7);
+  }
+}
+
+@layer components {
+  /* Frosted-glass surface used by the header */
+  .glass {
+    background: rgb(var(--bg) / 0.72);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+  }
+
+  /* Small pill label */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-border
+           bg-surface-2 px-3 py-1 text-xs font-medium text-fg-muted;
+  }
+
+  /* Section eyebrow */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase
+           tracking-[0.2em] text-accent;
+  }
+
+  /* Skeleton shimmer block */
+  .skeleton {
+    @apply relative overflow-hidden rounded-lg bg-surface-2;
+  }
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(var(--fg) / 0.06),
+      transparent
+    );
+    animation: shimmer 1.6s infinite;
+  }
+}
+
+@layer utilities {
+  .bg-grid {
+    background-image: radial-gradient(
+      rgb(var(--fg) / 0.06) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ==========================================================================
+   Animated brand mark — the Inkwell nib.
+   The nib outline writes itself in once on load — the body first, the slit
+   trailing just behind — then holds perfectly still. No looping motion.
+   Fully disabled (renders as the finished mark) for prefers-reduced-motion.
+   ========================================================================== */
+@keyframes nib-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.logo-mark .nib-body,
+.logo-mark .nib-slit {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: nib-draw 1.2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+.logo-mark .nib-slit {
+  animation-delay: 0.5s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-mark .nib-body,
+  .logo-mark .nib-slit {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   Rich-text (post) content — themed prose overrides for html-react-parser
+   output.
+   ========================================================================== */
+.browser-css {
+  @apply leading-relaxed text-fg;
+}
+.browser-css h1,
+.browser-css h2,
+.browser-css h3 {
+  @apply font-display text-fg mt-10 mb-4;
+}
+.browser-css h2 {
+  @apply text-3xl;
+}
+.browser-css h3 {
+  @apply text-2xl;
+}
+.browser-css p {
+  @apply my-5 text-fg-muted text-lg leading-8;
+}
+.browser-css a {
+  @apply text-accent underline underline-offset-4 decoration-accent/40
+         hover:decoration-accent transition;
+}
+.browser-css ul {
+  @apply list-disc pl-6 my-5 space-y-2 text-fg-muted;
+}
+.browser-css ol {
+  @apply list-decimal pl-6 my-5 space-y-2 text-fg-muted;
+}
+.browser-css img {
+  @apply rounded-2xl my-8 w-full shadow-soft;
+}
+.browser-css blockquote {
+  @apply border-l-4 border-accent pl-5 my-6 italic text-fg;
+}
+.browser-css pre {
+  @apply bg-surface-2 rounded-xl p-4 overflow-x-auto my-6 text-sm font-mono;
+}
+.browser-css code {
+  @apply font-mono text-[0.9em];
+}

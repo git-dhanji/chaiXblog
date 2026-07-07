@@ -1,161 +1,165 @@
-import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import LogoutBtn from './LogoutBtn'
-import Button from '../Button'
-import closepng from '../../assets/close.png'
-import Logo from '../Logo'
+import { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Bars3Icon, XMarkIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import LogoutBtn from "./LogoutBtn";
+import Button from "../Button";
+import Logo from "../Logo";
+import ThemeToggle from "../ThemeToggle";
 
 function Header() {
-  const [navOpen, setNavOpen] = useState(false)
-  const authStatus = useSelector((state) => state.auth.status)
-  const navigate = useNavigate()
+  const [navOpen, setNavOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const authStatus = useSelector((state) => state.auth.status);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Lock body scroll while the mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = navOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [navOpen]);
 
   const navItems = [
-    {
-      name: 'Home',
-      slug: "/",
-      active: true
-    },
-    {
-      name: "Signup",
-      slug: "/signup",
-      active: !authStatus,
-    },
-    {
-      name: "All Posts",
-      slug: "/all-posts",
-      active: authStatus,
-    },
-    {
-      name: "Add Post",
-      slug: "/add-post",
-      active: authStatus,
-    },
-  ]
+    { name: "Home", slug: "/", active: true },
+    { name: "Articles", slug: "/all-posts", active: true },
+    { name: "Write", slug: "/add-post", active: authStatus },
+  ];
 
+  const linkClass = ({ isActive }) =>
+    `relative px-1 py-1 text-sm font-medium transition-colors ${
+      isActive ? "text-accent" : "text-fg-muted hover:text-fg"
+    }`;
 
   return (
-    <>
-      <nav className="bg-gray-300 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <Link to="/" className="flex items-center  rtl:space-x-reverse">
-            <Logo
-              width="45px" height="45px"
-            />
-          </Link>
-          <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 glass transition-shadow ${
+        scrolled ? "border-b border-border shadow-soft" : "border-b border-transparent"
+      }`}
+    >
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link to="/" aria-label="Inkwell home">
+          <Logo />
+        </Link>
 
-            {
-              authStatus ? <LogoutBtn /> : (
-                <>
-                  <Button
-                    type='button'
-                  >
-                    <Link to={'/login'}>
-                      login
-                    </Link>
-                  </Button>
-                </>
-              )
-            }
+        {/* Desktop nav */}
+        <ul className="hidden items-center gap-8 md:flex">
+          {navItems
+            .filter((i) => i.active)
+            .map((item) => (
+              <li key={item.name}>
+                <NavLink to={item.slug} className={linkClass} end={item.slug === "/"}>
+                  {({ isActive }) => (
+                    <>
+                      {item.name}
+                      {isActive && (
+                        <span className="absolute -bottom-0.5 left-0 h-0.5 w-full rounded-full bg-accent" />
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              </li>
+            ))}
+        </ul>
 
-            {/* Humberger menu btn  */}
-            <button
-              onClick={() => { setNavOpen(!navOpen) }}
-              data-collapse-toggle="navbar-sticky" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden z-40" aria-controls="navbar-sticky">
-              <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
-              </svg>
-            </button>
-
-
-
+        {/* Right cluster */}
+        <div className="flex items-center gap-2">
+          <ThemeToggle className="hidden sm:grid" />
+          <div className="hidden md:block">
+            {authStatus ? (
+              <LogoutBtn />
+            ) : (
+              <Link to="/login">
+                <Button size="sm">Sign in</Button>
+              </Link>
+            )}
           </div>
-          <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border  rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
-              {navItems.map((item) =>
-                item.active ? (
-                  <NavLink
-                    key={item.name}
-                    to={item.slug}
-                    className={({ isActive }) => ` py-1 px-2 ${isActive ? "text-blue-500 rounded-sm bg-gray-600 duration-300" : " hover:text-gray-400 hover:duration-150 dark:text-stone-100"}`}
-                  >
-                    <button
-                      onClick={() => navigate(item.slug)}
-                      className='px-4'
-                    >{item.name}</button>
-                  </NavLink>
-                ) : null
-              )}
-            </ul>
-          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setNavOpen(true)}
+            aria-label="Open menu"
+            className="grid h-10 w-10 place-items-center rounded-full border border-border text-fg md:hidden"
+          >
+            <Bars3Icon className="h-5 w-5" />
+          </button>
         </div>
       </nav>
-      <div className="p-8 bg-black "></div>
 
-
-
-
-
-      {/* Humberger menu start here  */}
-      {
-        navOpen && (
-          <div className="h-full w-full md:hidden right-0 top-0 dark:bg-slate-800 opacity-100 fixed z-30 flex justify-center bg-slate-300">
-            <div className=" absolute top-0 right-0 w-7 h-7 m-6  cursor-pointer"
-              onClick={() => { setNavOpen(!navOpen) }}
+      {/* Mobile overlay menu */}
+      <div
+        className={`fixed inset-0 z-50 md:hidden ${navOpen ? "" : "pointer-events-none"}`}
+        aria-hidden={!navOpen}
+      >
+        <div
+          className={`absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity ${
+            navOpen ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={() => setNavOpen(false)}
+        />
+        <div
+          className={`absolute right-0 top-0 flex h-full w-4/5 max-w-xs flex-col bg-surface p-6 shadow-lift transition-transform duration-300 ${
+            navOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <Logo />
+            <button
+              onClick={() => setNavOpen(false)}
+              aria-label="Close menu"
+              className="grid h-10 w-10 place-items-center rounded-full border border-border text-fg"
             >
-              <img src={closepng} alt="humbergercut" className='w-full h-full' />
-            </div>
-            <ul className=" flex flex-col mt-10 text-center font-serif">
-              {navItems.map((item) =>
-                item.active ? (
+              <XMarkIcon className="h-5 w-5" />
+            </button>
+          </div>
+
+          <ul className="mt-8 flex flex-col gap-1">
+            {navItems
+              .filter((i) => i.active)
+              .map((item) => (
+                <li key={item.name}>
                   <NavLink
-                    key={item.name}
                     to={item.slug}
-                    className={({ isActive }) => `text-5xl font-semibold  py-8 px-2 ${isActive ? "text-blue-500 rounded-sm  duration-300" : " hover:text-gray-400 hover:duration-150 dark:text-stone-100"}`}
+                    end={item.slug === "/"}
+                    onClick={() => setNavOpen(false)}
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 rounded-xl px-4 py-3 text-lg font-medium transition ${
+                        isActive
+                          ? "bg-accent-soft text-accent"
+                          : "text-fg hover:bg-surface-2"
+                      }`
+                    }
                   >
-                    <button
-                      onClick={() => {
-                        navigate(item.slug)
-                        setNavOpen(!navOpen)
-                      }}
-                      className='px-4'
-                    >{item.name}</button>
+                    {item.name === "Write" && <PencilSquareIcon className="h-5 w-5" />}
+                    {item.name}
                   </NavLink>
-                ) : null
+                </li>
+              ))}
+          </ul>
+
+          <div className="mt-auto flex items-center justify-between gap-3 border-t border-border pt-6">
+            <ThemeToggle />
+            <div className="flex-1">
+              {authStatus ? (
+                <LogoutBtn />
+              ) : (
+                <Link to="/login" onClick={() => setNavOpen(false)}>
+                  <Button className="w-full">Sign in</Button>
+                </Link>
               )}
-
-            </ul>
-
-            <div className="absolute bottom-0 mb-8 w-full px-8">
-              {
-                authStatus ?
-                  <LogoutBtn
-                    className='dark:bg-blue-900 bg-blue-600  text-white opacity-100'
-                  /> : (
-                    <>
-                      <Button
-                        type='button'
-                      >
-                        <Link to={'/login'}>
-                          login
-                        </Link>
-                      </Button>
-                    </>
-                  )
-              }
             </div>
           </div>
-        )
-      }
-
-    </>
-  )
+        </div>
+      </div>
+    </header>
+  );
 }
-
-
-
 
 export default Header;

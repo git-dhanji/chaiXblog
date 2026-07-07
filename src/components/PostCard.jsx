@@ -1,24 +1,54 @@
+import { Link } from "react-router-dom";
+import { ClockIcon } from "@heroicons/react/24/outline";
+import Avatar from "./Avatar";
+import { excerpt, readingTime, formatDate, coverImage } from "../utils";
 
-import appwriteService from "../appwrite/config"
-import { Link } from 'react-router-dom'
-
-function PostCard({ featuredImage, $id, title, Author }) {
+function PostCard(post) {
+  const { $id, title, Author, content, $createdAt } = post;
   return (
-    <Link to={`/post/${$id}`}>
-      <div className='md:max-w-[350px] md:min-w-[350px] md:min-h-[260px] max-h-[260px] dark:border-stone-300 border-stone-900 relative flex justify-between flex-col'>
-        <div className="bg-emerald-600 dark:bg-cyan-950 text-zinc-100  dark:text-gray-50 absolute z-10 rounded-br-xl p-1">{Author ? Author : 'No author'}</div>
-        <div className='w-full  md:h-[200px] relative '>
-          <img src={appwriteService.getFilePreview(featuredImage)} alt={title}
-            className=' h-full w-full' />
-        </div>
-        <h2
-          className='text-lg  py-4 w-full dark:text-stone-200 text-start  pl-1 dark:bg-[#111827] bg-emerald-100 text-pink-950 border-t-[1px] whitespace-nowrap overflow-ellipsis'
-        >{title}</h2>
+    <Link
+      to={`/post/${$id}`}
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border
+        bg-surface shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift
+        hover:border-accent/40"
+    >
+      <div className="relative aspect-[16/10] overflow-hidden bg-surface-2">
+        <img
+          src={coverImage(post)}
+          alt={title}
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <span className="absolute left-3 top-3 chip !bg-bg/85 backdrop-blur">
+          <ClockIcon className="h-3.5 w-3.5" />
+          {readingTime(content)} min read
+        </span>
       </div>
 
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="line-clamp-2 font-display text-lg font-semibold leading-snug text-fg transition-colors group-hover:text-accent">
+          {title}
+        </h3>
+        {content && (
+          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-fg-muted">
+            {excerpt(content, 120)}
+          </p>
+        )}
+
+        <div className="mt-auto flex items-center gap-3 pt-5">
+          <Avatar name={Author || "Anonymous"} size="sm" />
+          <div className="min-w-0">
+            <p className="truncate text-sm font-medium text-fg">
+              {Author || "Anonymous"}
+            </p>
+            {$createdAt && (
+              <p className="text-xs text-fg-subtle">{formatDate($createdAt)}</p>
+            )}
+          </div>
+        </div>
+      </div>
     </Link>
-  )
+  );
 }
 
-
-export default PostCard
+export default PostCard;

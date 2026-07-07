@@ -2,19 +2,21 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import authService from "./appwrite/auth";
 import { login, logout } from "./store/authSlice";
-import { Footer, Header, useDynamicTitle, GlobalSpinner } from "./components";
-import { Outlet, useNavigation } from "react-router-dom";
-
-// Locomotive custom Hook
-import useLocomotiveScroll from "./hooks/useLocomotiveScroll";
+import {
+  Footer,
+  Header,
+  useDynamicTitle,
+  GlobalSpinner,
+  ScrollToTop,
+} from "./components";
+import { Outlet, useNavigation, useLocation } from "react-router-dom";
 
 function App() {
   useDynamicTitle();
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const scrollRef = useLocomotiveScroll();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     authService
@@ -27,35 +29,25 @@ function App() {
         }
       })
       .finally(() => setLoading(false));
-
-    return () => {};
   }, [dispatch]);
 
-  if (navigation.state === "loading") {
-    return <GlobalSpinner />;
-  }
+  // Reset scroll position on route change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [pathname]);
 
-  return !loading ? (
-    <div className="min-h-full bg-[#a0a0a0] dark:bg-[#27374D]">
-      <div className="w-full h-full">
-        <header>
-          <Header />
-        </header>
-        
-          <div data-scroll-container ref={scrollRef}>
-            <div data-scroll-section>
-              <Outlet />
-            </div>
-          </div>
+  if (loading) return <GlobalSpinner />;
 
-
-      {/* TODO: Fix Footer Section  */}
-        <footer>
-          <Footer />
-        </footer>
-      </div>
+  return (
+    <div className="flex min-h-screen flex-col bg-bg text-fg">
+      <Header />
+      <main className="flex-1 pt-16">
+        {navigation.state === "loading" ? <GlobalSpinner /> : <Outlet />}
+      </main>
+      <Footer />
+      <ScrollToTop />
     </div>
-  ) : null;
+  );
 }
 
 export default App;

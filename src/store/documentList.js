@@ -1,16 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import appwrite from "../appwrite/config";
+import { SAMPLE_POSTS } from "../data/samplePosts";
 
 // Define the async action creator using createAsyncThunk
 export const fetchDocuments = createAsyncThunk(
   "documents/fetchDocuments",
   async () => {
-    try {
-      const response = await appwrite.getPosts();
-      return response.documents;
-    } catch (error) {
-      throw new Error("Failed to fetch documents");
-    }
+    // getPosts() returns `false` on an Appwrite error, so guard against it
+    // and always resolve to an array. Fall back to built-in demo articles
+    // when the backend has no posts yet.
+    const response = await appwrite.getPosts();
+    const docs =
+      response && Array.isArray(response.documents) ? response.documents : [];
+    return docs.length ? docs : SAMPLE_POSTS;
   }
 );
 
@@ -32,7 +34,7 @@ const documentSlice = createSlice({
       })
       .addCase(fetchDocuments.fulfilled, (state, action) => {
         state.buffering = false;
-        state.data = action.payload;
+        state.data = Array.isArray(action.payload) ? action.payload : [];
         state.fetched = true;
         state.error = null;
       })
