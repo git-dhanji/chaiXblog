@@ -1,101 +1,99 @@
-import { useState } from 'react'
-import authService from '../appwrite/auth'
-import { Link, useNavigate } from 'react-router-dom'
-import { login } from '../store/authSlice'
-import { Button, Input, Logo, Spinner } from './index.js'
-import { useDispatch } from 'react-redux'
-import { useForm } from 'react-hook-form'
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
+import { login } from "../store/authSlice";
+import authService from "../appwrite/auth";
+import { Button, Input, Spinner } from "./index.js";
+import AuthShell from "./AuthShell";
 
 function Signup() {
-    const navigate = useNavigate()
-    const [error, setError] = useState("")
-    const dispatch = useDispatch()
-    const { register, handleSubmit, formState: { isSubmitting } } = useForm()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [error, setError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm();
 
-    const create = async (data) => {
-        setError("")
-        try {
-            const userData = await authService.createAccount(data)
-            if (userData) {
-                const userData = await authService.getCurrentUser()
-                if (userData) dispatch(login(userData));
-                navigate("/")
-            }
-        } catch (error) {
-            setError(error.message)
-        }
+  const create = async (data) => {
+    setError("");
+    try {
+      const account = await authService.createAccount(data);
+      if (account) {
+        const userData = await authService.getCurrentUser();
+        if (userData) dispatch(login({ userData }));
+        navigate("/");
+      }
+    } catch (err) {
+      setError(err.message);
     }
+  };
 
-    return (
-        <div className="flex items-center justify-center mx-4 h-screen" >
-            <div className={`mx-auto w-full max-w-lg dark:bg-slate-900 dark:text-stone-100 text-stone-800 border-[2px] border-stone-600 bg-stone-100  rounded-xl p-10 `}>
-                <div className=" flex justify-center">
-                    <h1 className="text-3xl font-bold mb-4 text-center"><Logo
-                        text='chaiXblog'
-                    /></h1>
-                </div>
-                <h2 className="text-center pb-4 text-2xl font-bold leading-tight dark:text-stone-100 text-stone-900">Sign up to create account</h2>
+  return (
+    <AuthShell>
+      <h1 className="font-display text-3xl font-bold text-fg">
+        Create your account
+      </h1>
+      <p className="mt-2 text-fg-muted">
+        Join Inkwell and start sharing your stories.
+      </p>
 
-                {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-
-                <form onSubmit={handleSubmit(create)}>
-                    <div className='space-y-5'>
-                        <Input
-                            disable={isSubmitting ? "true" : 'false'}
-                            className='border-[2px] border-stone-600'
-                            label="Full Name: "
-                            placeholder="Enter your full name"
-                            {...register("name", {
-                                required: true,
-                            })}
-                        />
-                        <Input
-                            disable={isSubmitting ? "true" : 'false'}
-                            className='border-[2px] border-stone-600'
-                            label="Email: "
-                            placeholder="Enter your email"
-                            type="email"
-                            {...register("email", {
-                                required: true,
-                                validate: {
-                                    matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                                        "Email address must be a valid address",
-                                }
-                            })}
-                        />
-                        <Input
-                            disable={isSubmitting ? "true" : 'false'}
-                            className='border-[2px] border-stone-600'
-                            label="Password: "
-                            type="password"
-                            placeholder="Enter your password"
-                            {...register("password", {
-                                required: true,
-                            })}
-                        />
-                        <Button
-                            type="submit"
-                            className="w-full mt-8 flex items-center justify-center"
-                        >{isSubmitting ? <Spinner /> : 'Register'}</Button>
-
-                        <p className="mt-8 text-center text-base text-black/60 dark:text-cyan-100">
-                             allready have a account?&nbsp;
-                            <Link
-                                to="/login"
-                                className="font-medium text-primary transition-all duration-200 hover:underline dark:text-blue-400"
-                            >
-                                login
-                            </Link>
-                        </p>
-                    </div>
-
-                </form>
-            </div>
-
+      {error && (
+        <div className="mt-6 flex items-start gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-500">
+          <ExclamationCircleIcon className="mt-0.5 h-5 w-5 shrink-0" />
+          <span>{error}</span>
         </div>
+      )}
 
+      <form onSubmit={handleSubmit(create)} className="mt-8 space-y-5">
+        <Input
+          label="Full name"
+          placeholder="Jane Doe"
+          {...register("name", { required: true })}
+        />
+        <Input
+          label="Email"
+          placeholder="you@email.com"
+          type="email"
+          {...register("email", {
+            required: true,
+            validate: {
+              matchPattern: (value) =>
+                /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                "Please enter a valid email address",
+            },
+          })}
+        />
+        <Input
+          label="Password"
+          type="password"
+          placeholder="Create a strong password"
+          {...register("password", {
+            required: true,
+            minLength: { value: 8, message: "At least 8 characters" },
+          })}
+        />
+        <Button
+          type="submit"
+          size="lg"
+          disabled={isSubmitting}
+          className="w-full"
+        >
+          {isSubmitting ? <Spinner /> : "Create account"}
+        </Button>
+      </form>
 
-    )
+      <p className="mt-8 text-center text-sm text-fg-muted">
+        Already have an account?{" "}
+        <Link to="/login" className="font-semibold text-accent hover:underline">
+          Sign in
+        </Link>
+      </p>
+    </AuthShell>
+  );
 }
 
-export default Signup
+export default Signup;

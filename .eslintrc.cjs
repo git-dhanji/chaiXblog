@@ -16,5 +16,8 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    // This is a plain-JS project that relies on editor/runtime checks rather
+    // than the prop-types package, so disable prop-types validation.
+    'react/prop-types': 'off',
   },
 }

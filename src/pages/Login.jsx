@@ -1,9 +1,8 @@
-import { Login as LoginComponent, useDynamicTitle } from '../components'
+import { Login as LoginComponent, useDynamicTitle } from "../components";
+
 function Login() {
-  useDynamicTitle()
-  return (
-    <LoginComponent />
-  )
+  useDynamicTitle();
+  return <LoginComponent />;
 }
 
-export default Login
+export default Login;

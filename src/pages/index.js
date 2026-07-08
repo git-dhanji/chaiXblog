@@ -6,6 +6,8 @@ import Login from "./Login";
 import Post from "./Post";
 import Signup from "./Signup";
 import WebPolicy from "./WebPolicy";
+import NotFound from "./NotFound";
+
 export {
   AddPost,
   AllPosts,
@@ -15,4 +17,5 @@ export {
   Post,
   Signup,
   WebPolicy,
+  NotFound,
 };

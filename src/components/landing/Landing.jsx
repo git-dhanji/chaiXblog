@@ -1,141 +1,214 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  SunIcon,
-  MoonIcon,
   BoltIcon,
-  LockClosedIcon,
-  HandThumbUpIcon,
+  ShieldCheckIcon,
+  SparklesIcon,
   GlobeAltIcon,
   ChartBarSquareIcon,
-  CodeBracketIcon,
+  PencilSquareIcon,
+  ArrowRightIcon,
 } from "@heroicons/react/24/outline";
+import PostCard from "../PostCard";
+import FeaturedPost from "../FeaturedPost";
+import Button from "../Button";
+import Container from "../container/Container";
 
-const Landing = () => {
-  const [darkMode, setDarkMode] = useState(false);
+const FEATURES = [
+  {
+    icon: BoltIcon,
+    title: "Lightning fast",
+    desc: "Built on Vite and React for instant navigation and buttery-smooth reading.",
+  },
+  {
+    icon: ShieldCheckIcon,
+    title: "Secure by default",
+    desc: "Authentication and storage powered by Appwrite, so your data stays yours.",
+  },
+  {
+    icon: PencilSquareIcon,
+    title: "Rich editor",
+    desc: "Write with a full-featured editor — images, formatting, and code blocks.",
+  },
+  {
+    icon: GlobeAltIcon,
+    title: "Read anywhere",
+    desc: "A fully responsive experience that looks great on every screen size.",
+  },
+  {
+    icon: ChartBarSquareIcon,
+    title: "Reading insights",
+    desc: "Reading-time estimates and progress tracking keep readers engaged.",
+  },
+  {
+    icon: SparklesIcon,
+    title: "Beautifully themed",
+    desc: "A cohesive light & dark design system tuned for long-form reading.",
+  },
+];
+
+const STATS = [
+  { value: "10k+", label: "Monthly readers" },
+  { value: "500+", label: "Articles published" },
+  { value: "99.9%", label: "Uptime" },
+  { value: "4.9★", label: "Reader rating" },
+];
+
+export default function Landing({ posts = [], authStatus = false }) {
+  const featured = posts[0];
+  const latest = posts.slice(1, 7);
 
   return (
-    <div
-      className={
-        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
-      }
-    >
-      {/* Dark Mode Toggle */}
-      <div className="flex justify-end p-4">
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          className="p-2 rounded-full transition duration-300"
-        >
-          {darkMode ? (
-            <SunIcon className="w-6 h-6 text-yellow-400" />
-          ) : (
-            <MoonIcon className="w-6 h-6 text-gray-600" />
-          )}
-        </button>
-      </div>
+    <div>
+      {/* ---------------- Hero ---------------- */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
 
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-teal-500 to-slate-700 text-white py-20 px-5">
-        <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4  text-zinc-800">
-            Welcome to Our Blog
-          </h1>
-          <p className="text-lg md:text-2xl mb-8">
-            Stay updated with the latest news and trends.
-          </p>
-          <Link
-            to="/signup"
-            className="bg-white text-blue-600 hover:bg-gray-200 font-semibold py-3 px-6 rounded-md transition duration-300"
-          >
-            Explore Now
-          </Link>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="py-16 px-5">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Features
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md text-center">
-              <BoltIcon className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2 dark:text-yellow-500 ">
-                Fast Performance
-              </h3>
-              <p className="dark:text-slate-50">
-                Experience lightning-fast speeds and responsiveness.
-              </p>
-            </div>
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md text-center">
-              <LockClosedIcon className="w-16 h-16 text-green-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2 dark:text-green-500">
-                Secure
-              </h3>
-              <p className="dark:text-slate-100 ">
-                Your data is protected with industry-leading security.
-              </p>
-            </div>
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md text-center">
-              <HandThumbUpIcon className="w-16 h-16 text-blue-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-blue-500">
-                User Friendly
-              </h3>
-              <p className="dark:text-slate-100 ">
-                Our intuitive design makes it easy to get started.
-              </p>
-            </div>
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md text-center">
-              <GlobeAltIcon className="w-16 h-16 text-red-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-red-500">
-                Global Reach
-              </h3>
-              <p className="dark:text-slate-100 ">
-                Connect with people all over the world.
-              </p>
-            </div>
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md text-center">
-              <ChartBarSquareIcon className="w-16 h-16 text-purple-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-purple-500">
-                Analytics
-              </h3>
-              <p className="dark:text-slate-100 ">
-                Get insights to help grow your audience.
-              </p>
-            </div>
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md text-center">
-              <CodeBracketIcon className="w-16 h-16 text-indigo-500 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-indigo-500">
-                Customizable
-              </h3>
-              <p className="dark:text-slate-100 ">
-                Fully customizable to fit your needs.
-              </p>
+        <Container className="relative py-20 sm:py-28">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="eyebrow animate-fade-in">
+              <SparklesIcon className="h-4 w-4" />
+              Fresh perspectives, brewed daily
+            </span>
+            <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight text-fg sm:text-6xl animate-fade-up">
+              Stories worth
+              <br className="hidden sm:block" /> savouring, on{" "}
+              <span className="text-accent">Inkwell</span>
+            </h1>
+            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-fg-muted animate-fade-up">
+              Deep dives on technology, design, and ideas — thoughtfully written
+              and beautifully presented. Pour a cup and start reading.
+            </p>
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-3 animate-fade-up">
+              <Link to={authStatus ? "/all-posts" : "/signup"}>
+                <Button size="lg">
+                  {authStatus ? "Browse articles" : "Get started free"}
+                  <ArrowRightIcon className="h-4 w-4" />
+                </Button>
+              </Link>
+              <Link to="/all-posts">
+                <Button size="lg" variant="outline">
+                  Explore the blog
+                </Button>
+              </Link>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* CTA Section */}
-      <div className="bg-gradient-to-r from-green-400 to-blue-500 text-white py-20 px-5">
-        <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ready to get started?
-          </h2>
-          <p className="text-lg md:text-2xl mb-8">
-            Join thousands of others who have improved their business.
-          </p>
-          <Link
-            to={"/signup"}
-            className="bg-white text-green-600 hover:bg-gray-200 font-semibold py-3 px-6 rounded-md transition duration-300"
-          >
-            Sign Up Now
-          </Link>
-        </div>
-      </div>
+          {/* Stats */}
+          <div className="mx-auto mt-16 grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-4">
+            {STATS.map((s) => (
+              <div key={s.label} className="bg-surface px-4 py-6 text-center">
+                <div className="font-display text-2xl font-bold text-fg sm:text-3xl">
+                  {s.value}
+                </div>
+                <div className="mt-1 text-xs text-fg-muted">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* ---------------- Published articles (public) ---------------- */}
+      {featured && (
+        <section className="py-16">
+          <Container>
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <span className="eyebrow">From the blog</span>
+                <h2 className="mt-2 font-display text-3xl font-bold text-fg">
+                  Latest published stories
+                </h2>
+              </div>
+              <Link
+                to="/all-posts"
+                className="hidden items-center gap-1 text-sm font-semibold text-accent hover:gap-2 sm:inline-flex transition-all"
+              >
+                View all <ArrowRightIcon className="h-4 w-4" />
+              </Link>
+            </div>
+
+            {/* Featured newest post */}
+            <div className="mt-8">
+              <FeaturedPost {...featured} />
+            </div>
+
+            {/* Remaining recent posts */}
+            {latest.length > 0 && (
+              <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {latest.map((post) => (
+                  <PostCard key={post.$id} {...post} />
+                ))}
+              </div>
+            )}
+
+            <div className="mt-10 flex justify-center sm:hidden">
+              <Link to="/all-posts">
+                <Button variant="outline">
+                  View all articles <ArrowRightIcon className="h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {/* ---------------- Features ---------------- */}
+      <section className="py-16">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="eyebrow">Why Inkwell</span>
+            <h2 className="mt-2 font-display text-3xl font-bold text-fg sm:text-4xl">
+              Everything a modern blog should be
+            </h2>
+            <p className="mt-4 text-fg-muted">
+              Thoughtfully engineered from the ground up for writers and readers
+              alike.
+            </p>
+          </div>
+          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map(({ icon: Icon, title, desc }) => (
+              <div
+                key={title}
+                className="group rounded-2xl border border-border bg-surface p-6 transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-lift"
+              >
+                <div className="grid h-12 w-12 place-items-center rounded-xl bg-accent-soft text-accent transition-transform group-hover:scale-110">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <h3 className="mt-5 text-lg font-semibold text-fg">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-fg-muted">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* ---------------- CTA band ---------------- */}
+      <section className="py-16">
+        <Container>
+          <div className="relative overflow-hidden rounded-3xl bg-accent px-6 py-14 text-center shadow-lift sm:px-12">
+            <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.12]" />
+            <div className="relative mx-auto max-w-2xl">
+              <h2 className="font-display text-3xl font-bold text-accent-fg sm:text-4xl">
+                Have a story to tell?
+              </h2>
+              <p className="mx-auto mt-4 max-w-lg text-accent-fg/90">
+                Join a community of curious writers and share your ideas with
+                readers around the world.
+              </p>
+              <div className="mt-8 flex flex-wrap justify-center gap-3">
+                <Link to={authStatus ? "/add-post" : "/signup"}>
+                  <Button
+                    size="lg"
+                    className="!bg-accent-fg !text-accent hover:!opacity-90"
+                  >
+                    {authStatus ? "Write a post" : "Create your account"}
+                    <ArrowRightIcon className="h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
     </div>
   );
-};
-
-export default Landing;
+}
